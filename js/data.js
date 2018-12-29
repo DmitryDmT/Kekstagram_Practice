@@ -12,11 +12,11 @@
         GetRandomComments: function () {
             var randomBetweenTwo = window.randomizer.GenerateRandomNumber(1, 2);
             
-            var firstRandom = window.randomizer.GenerateRandomNumber(0, comments.length);
-            var secondRandom = window.randomizer.GenerateRandomNumber(0, comments.length);
+            var firstRandom = window.randomizer.GenerateRandomNumber(0, comments.length - 1);
+            var secondRandom = window.randomizer.GenerateRandomNumber(0, comments.length - 1);
             
             if (randomBetweenTwo === 1) {
-                return comments[firstRandom];
+                return [comments[firstRandom]];
             }
             else {
                 return [comments[firstRandom], comments[secondRandom]];
