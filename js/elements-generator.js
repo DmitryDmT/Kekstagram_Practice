@@ -27,10 +27,7 @@
             
             nodePicture.querySelector('.picture-img').setAttribute('src', `${picture.url}`);
             nodePicture.querySelector('.picture-likes').textContent = `${picture.likes}`;
-            
-            for (var comNum = 0; comNum < picture.comments.length; comNum++) {
-                nodePicture.querySelector('.picture-comments').textContent += picture.comments[comNum];
-            }
+            nodePicture.querySelector('.picture-comments').textContent = `${picture.comments.length}`;
             
             return nodePicture;
         }
