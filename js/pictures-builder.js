@@ -19,6 +19,4 @@
     galleryOverlayImg.src = `${picturesDom[0].querySelector('.picture-img').getAttribute('src')}`;
     galleryOverlayLikes.textContent = `${picturesDom[0].querySelector('.picture-likes').textContent}`;
     galleryOverlayComments.querySelector('.comments-count').textContent = `${picturesDom[0].querySelector('.picture-comments').textContent}`;
-    
-    galleryOverlay.classList.remove('hidden');
 })();
