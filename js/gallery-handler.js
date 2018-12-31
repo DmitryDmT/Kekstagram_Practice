@@ -17,14 +17,12 @@
     evt.preventDefault();
     var picture;
     
-    
-    if (evt.target.classList.contains('picture-img')) {
+    if (evt.target.classList.contains('picture-img')) { // for click
       picture = evt.target.parentElement;
     }
-    else {
-      picture = evt.target; // TODO доработать функцию
+    else if (evt.target.classList.contains('picture')) { // for tab and enter
+      picture = evt.target;
     }
-    
       
     FillOverlayData(picture);
       
