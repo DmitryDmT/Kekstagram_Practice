@@ -7,16 +7,19 @@
   
   var formUploadDescription = formUpload.querySelector('.upload-form-description');
   
+  var CloseForm = function () {
+    overlayUploadContainer.classList.add('hidden');
+    document.removeEventListener('keydown', OnEscCancelForm);
+  };
+  
   var OnEscCancelForm = function (evt) {
     if (evt.keyCode === 27) {
-      overlayUploadContainer.classList.add('hidden');
-      document.removeEventListener('keydown', OnEscCancelForm);
+      CloseForm();
     }
   };
   
   var OnClickCancelForm = function () {
-    overlayUploadContainer.classList.add('hidden');
-    formCancelButton.removeEventListener('keydown', OnEscCancelForm);
+    CloseForm();
   };
   
   fileUploadField.addEventListener('change', function () {
