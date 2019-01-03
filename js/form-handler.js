@@ -8,6 +8,8 @@
   var formUploadDescription = formUpload.querySelector('.upload-form-description');
   
   var formUploadResizeControls = formUpload.querySelector('.upload-resize-controls-value');
+  var formUploadEffect = formUpload.querySelector('.upload-effect');
+  var formUploadImage = formUpload.querySelector('.effect-image-preview');
   
   var CloseForm = function () {
     overlayUploadContainer.classList.add('hidden');
