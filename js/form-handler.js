@@ -7,6 +7,8 @@
   
   var formUploadDescription = formUpload.querySelector('.upload-form-description');
   
+  var formUploadResizeControls = formUpload.querySelector('.upload-resize-controls-value');
+  
   var CloseForm = function () {
     overlayUploadContainer.classList.add('hidden');
     document.removeEventListener('keydown', OnEscCancelForm);
