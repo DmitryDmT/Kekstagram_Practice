@@ -2,7 +2,9 @@
   var formUpload = document.querySelector('.upload-form');
   var formUploadEffectLevel = formUpload.querySelector('.upload-effect-level');
   var formUploadEffectLevelLine = formUpload.querySelector('.upload-effect-level-line');
+  
   var effectLevelMax;
+  var checkedFilter = null; // for cooperation between checked filter and slider filter
   
   /* Open/Close form picture */
   
@@ -29,7 +31,7 @@
   fileUploadField.addEventListener('change', function () {
     overlayUploadContainer.classList.remove('hidden');
     
-    effectLevelMax = formUploadEffectLevel.clientWidth - (formUploadEffectLevelLine.offsetLeft * 2);
+    effectLevelMax = formUploadEffectLevel.clientWidth - (formUploadEffectLevelLine.offsetLeft * 2); // for automate communication between css and js
     
     formCancelButton.addEventListener('click', OnClickCancelForm);
     document.addEventListener('keydown', OnEscCancelForm);
@@ -83,6 +85,15 @@
   
   formUploadEffectControls.addEventListener('change', function (evt) {
     var effectValue = evt.target.value;
+    checkedFilter = effectValue;
+    
+    if (checkedFilter === 'none') {
+      formUploadEffectLevel.classList.add('hidden');
+    }
+    else {
+      formUploadEffectLevel.classList.remove('hidden');
+    }
+    
     formUploadImage.className = `effect-image-preview effect-${effectValue}`;
   });
   
@@ -158,7 +169,35 @@
       if (leftPos >= 0 && leftPos <= effectLevelMax) {
         effectLevelValuePin.style.left = `${leftPos}px`;
         effectLevelValueLine.style.width = `${leftPos}px`;
-        effectLevelValue.value = Math.floor(leftPos / effectLevelMax * 100);
+        
+        var correctLeftPos = Math.floor(leftPos / effectLevelMax * 100);
+        
+        switch (checkedFilter) {
+          case 'chrome':
+            effectLevelValue.value = correctLeftPos / 100;
+            formUploadImage.style.filter = `grayscale(${correctLeftPos / 100})`;
+            break;
+          case 'sepia':
+            effectLevelValue.value = correctLeftPos / 100;
+            formUploadImage.style.filter = `sepia(${correctLeftPos / 100})`;
+            break;
+          case 'marvin':
+            effectLevelValue.value = correctLeftPos;
+            formUploadImage.style.filter = `invert(${correctLeftPos}%)`;
+            break;
+          case 'phobos':
+            correctLeftPos = Math.floor(leftPos / effectLevelMax * 300);
+            effectLevelValue.value = correctLeftPos / 100;
+            formUploadImage.style.filter = `blur(${correctLeftPos / 100}px)`;
+            break;
+          case 'heat':
+            correctLeftPos = Math.floor(leftPos / effectLevelMax * 300);
+            effectLevelValue.value = correctLeftPos / 100;
+            formUploadImage.style.filter = `brightness(${correctLeftPos / 100})`;
+            break;
+          default:
+            break;
+        }
       }
     };
     
