@@ -1,5 +1,8 @@
 (function () {
   var formUpload = document.querySelector('.upload-form');
+  var formUploadEffectLevel = formUpload.querySelector('.upload-effect-level');
+  var formUploadEffectLevelLine = formUpload.querySelector('.upload-effect-level-line');
+  var effectLevelMax;
   
   /* Open/Close form picture */
   
@@ -25,6 +28,8 @@
   
   fileUploadField.addEventListener('change', function () {
     overlayUploadContainer.classList.remove('hidden');
+    
+    effectLevelMax = formUploadEffectLevel.clientWidth - (formUploadEffectLevelLine.offsetLeft * 2);
     
     formCancelButton.addEventListener('click', OnClickCancelForm);
     document.addEventListener('keydown', OnEscCancelForm);
@@ -121,5 +126,50 @@
     CheckHashTagsRepeat(hashTags, evt);
     CheckHashTagsLength(hashTags, evt);
     CheckHashTagsValidity(hashTags, evt);
+  });
+  
+  /* Dragging filter picture */
+  
+  
+  var effectLevelValue = formUploadEffectLevel.querySelector('.upload-effect-level-value');
+  var effectLevelValuePin = formUploadEffectLevel.querySelector('.upload-effect-level-pin');
+  var effectLevelValueLine = formUploadEffectLevel.querySelector('.upload-effect-level-val');
+  
+  effectLevelValuePin.addEventListener('mousedown', function (downEvt) {
+    downEvt.preventDefault();
+    
+    var start = {
+      x: downEvt.clientX
+    };
+    
+    var OnMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      
+      var diff = {
+        x: moveEvt.clientX - start.x
+      };
+      
+      start = {
+        x: moveEvt.clientX
+      };
+      
+      var leftPos = effectLevelValuePin.offsetLeft + diff.x;
+      
+      if (leftPos >= 0 && leftPos <= effectLevelMax) {
+        effectLevelValuePin.style.left = `${leftPos}px`;
+        effectLevelValueLine.style.width = `${leftPos}px`;
+        effectLevelValue.value = Math.floor(leftPos / effectLevelMax * 100);
+      }
+    };
+    
+    var OnMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      
+      document.removeEventListener('mousemove', OnMouseMove);
+      document.removeEventListener('mouseup', OnMouseUp);
+    };
+    
+    document.addEventListener('mousemove', OnMouseMove);
+    document.addEventListener('mouseup', OnMouseUp);
   });
 })();
