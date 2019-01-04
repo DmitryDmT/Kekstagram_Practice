@@ -5,6 +5,7 @@
   var overlayUploadContainer = formUpload.querySelector('.upload-overlay');
   var formCancelButton = formUpload.querySelector('.upload-form-cancel');
   var formUploadDescription = formUpload.querySelector('.upload-form-description');
+  var formUploadHashtags = formUpload.querySelector('.upload-form-hashtags');
   
   var formUploadResizeControls = formUpload.querySelector('.upload-resize-controls-value');
   var formUploadResizeDecrement = formUpload.querySelector('.upload-resize-controls-button-dec');
@@ -15,36 +16,6 @@
   
   var formUploadEffectControls = formUpload.querySelector('.upload-effect-controls');
   var formUploadImage = formUpload.querySelector('.effect-image-preview');
-  
-  /* Setup form picture */
-  
-  formUploadResizeIncrement.addEventListener('click', function () {
-    var resizeUpValue = parseInt(formUploadResizeControls.getAttribute('value'));
-    if (resizeUpValue < resizeMax) {
-      var upValue = resizeUpValue + resizeStep;
-      formUploadResizeControls.setAttribute('value', `${upValue}%`);
-      if (upValue < 100) {
-        formUploadImage.style.transform = `scale(0.${upValue})`;
-      }
-      else {
-        formUploadImage.style.transform = `scale(${upValue / 100})`;
-      }
-    }
-  });
-  
-  formUploadResizeDecrement.addEventListener('click', function () {
-    var resizeDownValue = parseInt(formUploadResizeControls.getAttribute('value'));
-    if (resizeDownValue > resizeMin) {
-      var downValue = resizeDownValue - resizeStep;
-      formUploadResizeControls.setAttribute('value', `${downValue}%`);
-      formUploadImage.style.transform = `scale(0.${downValue})`;
-    }
-  });
-  
-  formUploadEffectControls.addEventListener('change', function (evt) {
-    var effectValue = evt.target.value;
-    formUploadImage.className = `effect-image-preview effect-${effectValue}`;
-  });
   
   /* Open/Close form picture */
   
@@ -78,5 +49,75 @@
       formCancelButton.disabled = false;
       document.addEventListener('keydown', OnEscCancelForm);
     });
+  });
+  
+  /* Setup form picture */
+  
+  formUploadResizeIncrement.addEventListener('click', function () {
+    var resizeUpValue = parseInt(formUploadResizeControls.getAttribute('value'));
+    if (resizeUpValue < resizeMax) {
+      var upValue = resizeUpValue + resizeStep;
+      formUploadResizeControls.setAttribute('value', `${upValue}%`);
+      if (upValue < 100) {
+        formUploadImage.style.transform = `scale(0.${upValue})`;
+      }
+      else {
+        formUploadImage.style.transform = `scale(${upValue / 100})`;
+      }
+    }
+  });
+  
+  formUploadResizeDecrement.addEventListener('click', function () {
+    var resizeDownValue = parseInt(formUploadResizeControls.getAttribute('value'));
+    if (resizeDownValue > resizeMin) {
+      var downValue = resizeDownValue - resizeStep;
+      formUploadResizeControls.setAttribute('value', `${downValue}%`);
+      formUploadImage.style.transform = `scale(0.${downValue})`;
+    }
+  });
+  
+  formUploadEffectControls.addEventListener('change', function (evt) {
+    var effectValue = evt.target.value;
+    formUploadImage.className = `effect-image-preview effect-${effectValue}`;
+  });
+  
+  /* Check hashtags input field */
+  
+  var CheckHashTagsRepeat = function (hashTags, evt) {
+    for (var i = 0; i < hashTags.length - 1; i++) {
+      for (var j = i + 1; j < hashTags.length; j++) {
+        if (hashTags[i] === hashTags[j]) {
+          evt.target.setCustomValidity('Повторяющиеся хэш-теги!');
+        }
+      }
+    }
+  };
+  
+  var CheckHashTagsLength = function (hashTags, evt) {
+    if (hashTags.length > 5) {
+      evt.target.setCustomValidity(`Должно быть не больше 5-ти хэш-тегов! Сейчас - ${hashTags.length}`);
+    }
+  };
+  
+  var CheckHashTagsValidity = function (hashTags, evt) {
+    hashTags.forEach(function (hashtag) {
+      if (hashtag.charAt(0) !== '#') {
+        evt.target.setCustomValidity(`Первый символ должен быть "#" в слове ${hashtag}.`);
+      }
+      if (hashtag.length > 20) {
+        evt.target.setCustomValidity(`Максимальная длина хэш-тега - 20 символов. Сейчас длина - ${hashtag.length}.`);
+      }
+    });
+  };
+  
+  formUploadHashtags.addEventListener('input', function (evt) {
+    var hashTagsValue = formUploadHashtags.value;
+    hashTagsValue = hashTagsValue.toLowerCase();
+    var hashTags = hashTagsValue.split(' ');
+    
+    evt.target.setCustomValidity('');
+    CheckHashTagsRepeat(hashTags, evt);
+    CheckHashTagsLength(hashTags, evt);
+    CheckHashTagsValidity(hashTags, evt);
   });
 })();
