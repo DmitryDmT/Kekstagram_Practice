@@ -1,23 +1,12 @@
 (function () {
   var formUpload = document.querySelector('.upload-form');
-  var fileUploadField = formUpload.querySelector('#upload-file');
   
+  /* Open/Close form picture */
+  
+  var fileUploadField = formUpload.querySelector('#upload-file');
   var overlayUploadContainer = formUpload.querySelector('.upload-overlay');
   var formCancelButton = formUpload.querySelector('.upload-form-cancel');
   var formUploadDescription = formUpload.querySelector('.upload-form-description');
-  var formUploadHashtags = formUpload.querySelector('.upload-form-hashtags');
-  
-  var formUploadResizeControls = formUpload.querySelector('.upload-resize-controls-value');
-  var formUploadResizeDecrement = formUpload.querySelector('.upload-resize-controls-button-dec');
-  var formUploadResizeIncrement = formUpload.querySelector('.upload-resize-controls-button-inc');
-  const resizeStep = 25;
-  const resizeMax = 100;
-  const resizeMin = 25;
-  
-  var formUploadEffectControls = formUpload.querySelector('.upload-effect-controls');
-  var formUploadImage = formUpload.querySelector('.effect-image-preview');
-  
-  /* Open/Close form picture */
   
   var CloseForm = function () {
     overlayUploadContainer.classList.add('hidden');
@@ -53,6 +42,17 @@
   
   /* Setup form picture */
   
+  var formUploadResizeControls = formUpload.querySelector('.upload-resize-controls-value');
+  var formUploadResizeDecrement = formUpload.querySelector('.upload-resize-controls-button-dec');
+  var formUploadResizeIncrement = formUpload.querySelector('.upload-resize-controls-button-inc');
+  
+  const resizeStep = 25;
+  const resizeMax = 100;
+  const resizeMin = 25;
+  
+  var formUploadEffectControls = formUpload.querySelector('.upload-effect-controls');
+  var formUploadImage = formUpload.querySelector('.effect-image-preview');
+  
   formUploadResizeIncrement.addEventListener('click', function () {
     var resizeUpValue = parseInt(formUploadResizeControls.getAttribute('value'));
     if (resizeUpValue < resizeMax) {
@@ -82,6 +82,8 @@
   });
   
   /* Check hashtags input field */
+  
+  var formUploadHashtags = formUpload.querySelector('.upload-form-hashtags');
   
   var CheckHashTagsRepeat = function (hashTags, evt) {
     for (var i = 0; i < hashTags.length - 1; i++) {
