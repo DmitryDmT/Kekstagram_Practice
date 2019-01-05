@@ -211,4 +211,17 @@
     document.addEventListener('mousemove', OnMouseMove);
     document.addEventListener('mouseup', OnMouseUp);
   });
+  
+  /* Submit form picture */
+  
+  formUpload.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    
+    window.backend.upload(new FormData(formUpload), function (response) {
+      overlayUploadContainer.classList.add('hidden');
+      alert(`Форма отправлена успешно`);
+    }, function (message) {
+      console.log(message);
+    });
+  });
 })();
